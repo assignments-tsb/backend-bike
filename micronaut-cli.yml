@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.bike.app
+testFramework: spock
+sourceLanguage: java
+buildTool: gradle
+features: [annotation-api, app-name, gradle, hibernate-jpa, http-client, java, java-application, jdbc-hikari, liquibase, logback, lombok, micronaut-build, netty-server, openapi, postgres, readme, security-annotations, security-jwt, shade, spock, testcontainers, yaml]

@@ -1,7 +1,7 @@
 plugins {
     id("groovy") 
     id("com.github.johnrengelman.shadow") version "7.1.0"
-    id("io.micronaut.application") version "2.0.8"
+    id("io.micronaut.application") version "3.0.0-M1"
 }
 
 version = "0.1"
@@ -9,6 +9,7 @@ group = "com.bike.app"
 
 repositories {
     mavenCentral()
+    maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
 }
 
 micronaut {
@@ -24,6 +25,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.openapi:micronaut-openapi")
+    annotationProcessor("io.micronaut:micronaut-management")
     annotationProcessor("io.micronaut.security:micronaut-security-annotations")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
@@ -35,6 +37,8 @@ dependencies {
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("io.swagger.core.v3:swagger-annotations")
     implementation("javax.annotation:javax.annotation-api")
+    implementation("io.micronaut.openapi:micronaut-openapi")
+    implementation("io.micronaut:micronaut-management")
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("org.postgresql:postgresql")

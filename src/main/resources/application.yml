@@ -1,6 +1,6 @@
 micronaut:
   application:
-    name: backendBike
+    name: backend-bike
   security:
     authentication: bearer
     token:
@@ -9,10 +9,11 @@ micronaut:
           secret:
             generator:
               secret: '"${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"'
-datasources:
-  default:
-    url: jdbc:postgresql://localhost:5432/postgres
-    driverClassName: org.postgresql.Driver
-    username: postgres
-    password: ''
-jpa.default.properties.hibernate.hbm2ddl.auto: update
+    enabled: true
+#datasources:
+#  default:
+#    url: jdbc:postgresql://localhost:5432/postgres
+#    driverClassName: org.postgresql.Driver
+#    username: postgres
+#    password: ''
+#jpa.default.properties.hibernate.hbm2ddl.auto: update

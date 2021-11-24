@@ -30,7 +30,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
                 io.micronaut.security.endpoints.LoginController.class,
                 io.micronaut.security.endpoints.LogoutController.class
         },
-        tags = @Tag(name = "Security")
+        tags = @Tag(name = "Security", description = "Security related stuffs")
 )
 @SecurityScheme(
         name = "api",
@@ -38,5 +38,4 @@ import io.swagger.v3.oas.annotations.tags.Tag;
         bearerFormat = "JWT",
         type = SecuritySchemeType.HTTP
 )
-public class OpenAPIConfiguration {
-}
+public class OpenAPIConfiguration {}

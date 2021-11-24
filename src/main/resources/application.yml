@@ -19,13 +19,6 @@ micronaut:
         httpMethod: GET
         access:
           - isAnonymous()
-#datasources:
-#  default:
-#    url: jdbc:postgresql://localhost:5432/postgres
-#    driverClassName: org.postgresql.Driver
-#    username: postgres
-#    password: ''
-#jpa.default.properties.hibernate.hbm2ddl.auto: update
   router:
     static-resources:
       swagger:
@@ -34,3 +27,14 @@ micronaut:
       swagger-ui:
         paths: classpath:META-INF/swagger/views/swagger-ui
         mapping: /swagger-ui/**
+datasources:
+  default:
+    url: jdbc:postgresql://localhost:5432/postgres
+    driverClassName: org.postgresql.Driver
+    username: test_user
+    password: test_password
+jpa.default.properties.hibernate.hbm2ddl.auto: validate
+liquibase:
+  datasources:
+    default:
+      change-log: classpath:db/liquibase-changelog.sql

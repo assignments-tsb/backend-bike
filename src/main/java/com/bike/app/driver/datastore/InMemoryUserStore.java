@@ -35,12 +35,21 @@ public class InMemoryUserStore implements UserStore {
     }
 
     @Override
-    public User create(User user) {
+    public User create(User user) throws NonUniqueUsername {
+        throwDuplicateUsernameIfAlreadyExists(user.getUsername());
+
         var generatedId = UUID.randomUUID().toString();
         var createdUser = user.withId(generatedId);
         users.put(generatedId, createdUser);
 
         return createdUser;
+    }
+
+    private void throwDuplicateUsernameIfAlreadyExists(String username) throws NonUniqueUsername {
+        var alreadyExists = users.values().stream()
+                .anyMatch(u -> u.getUsername().equals(username));
+
+        if (alreadyExists) throw new UserStore.NonUniqueUsername();
     }
 
     @Override

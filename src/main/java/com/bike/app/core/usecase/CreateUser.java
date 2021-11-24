@@ -1,9 +1,6 @@
 package com.bike.app.core.usecase;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.With;
+import lombok.*;
 
 public interface CreateUser {
 
@@ -23,5 +20,10 @@ public interface CreateUser {
         String userId, username;
     }
 
-    CreatedUser perform(UserCreateCommand createCommand);
+    @Value
+    class UsernameAlreadyTaken extends Exception {
+        String username;
+    }
+
+    CreatedUser perform(UserCreateCommand createCommand) throws UsernameAlreadyTaken;
 }

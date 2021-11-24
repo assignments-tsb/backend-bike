@@ -6,7 +6,9 @@ import java.util.Optional;
 
 public interface UserStore {
 
-    User create(User user);
+    class NonUniqueUsername extends Exception {}
+
+    User create(User user) throws NonUniqueUsername;
 
     Optional<User> findByUsername(String username);
 }

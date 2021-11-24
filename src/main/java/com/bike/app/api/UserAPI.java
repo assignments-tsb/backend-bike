@@ -4,7 +4,9 @@ import com.bike.app.core.usecase.CreateUser;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Error;
 import io.micronaut.http.annotation.Post;
+import io.micronaut.http.hateoas.JsonError;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -49,8 +51,9 @@ public class UserAPI {
     @Operation(operationId = "user-create", summary = "Create a new User", description = "Allows administrators to create a new User for the system")
     @ApiResponse(responseCode = "401", description = "Authentication is required")
     @ApiResponse(responseCode = "403", description = "User is not allowed to create a new user")
+    @ApiResponse(responseCode = "409", description = "User already exists")
     @Tag(name = "User")
-    public CreatedUserResponse create(@Body CreateUserRequest createUserRequest) {
+    public CreatedUserResponse create(@Body CreateUserRequest createUserRequest) throws CreateUser.UsernameAlreadyTaken {
         var createUser = new CreateUser.UserCreateCommand()
                 .withUsername(createUserRequest.username)
                 .withPlainPassword(createUserRequest.password)
@@ -59,5 +62,13 @@ public class UserAPI {
         var createdUser = this.createUser.perform(createUser);
 
         return new CreatedUserResponse(createdUser.getUserId());
+    }
+
+    @Error(exception = CreateUser.UsernameAlreadyTaken.class)
+    public JsonError catchUsernameAlreadyTaken(CreateUser.UsernameAlreadyTaken exception) {
+
+        JsonError error = new JsonError("Username '" + exception.getUsername() + "' is already taken");
+
+        return error;
     }
 }

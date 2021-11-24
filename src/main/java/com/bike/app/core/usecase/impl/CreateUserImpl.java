@@ -15,16 +15,24 @@ public class CreateUserImpl implements CreateUser {
     private final PasswordEncryptor passwordEncryptor;
 
     @Override
-    public CreatedUser perform(UserCreateCommand createCommand) {
+    public CreatedUser perform(UserCreateCommand createCommand) throws UsernameAlreadyTaken {
         User user = new User()
                 .withDisplayName(createCommand.getDisplayName())
                 .withEncryptedPassword(passwordEncryptor.encrypt(createCommand.getPlainPassword()))
                 .withUsername(createCommand.getUsername());
 
-        User created = userStore.create(user);
+        User created = createUserOrThrow(user);
 
         return new CreatedUser()
                 .withUserId(created.getId())
                 .withUsername(created.getUsername());
+    }
+
+    private User createUserOrThrow(User user) throws UsernameAlreadyTaken {
+        try {
+            return userStore.create(user);
+        } catch (UserStore.NonUniqueUsername e) {
+            throw new CreateUser.UsernameAlreadyTaken(user.getUsername());
+        }
     }
 }

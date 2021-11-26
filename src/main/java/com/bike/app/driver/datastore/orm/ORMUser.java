@@ -1,5 +1,6 @@
 package com.bike.app.driver.datastore.orm;
 
+import com.bike.app.core.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,4 +27,11 @@ public class ORMUser {
 
     @Column(name = "encrypted_password")
     String encryptedPassword;
+
+    public User asDomain() {
+        return new User()
+                .withId(id)
+                .withUsername(username)
+                .withDisplayName(displayName);
+    }
 }

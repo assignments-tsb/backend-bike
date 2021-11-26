@@ -1,0 +1,2 @@
+feature:
+  persistence: STORED_PROC

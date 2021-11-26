@@ -1,8 +1,9 @@
-package com.bike.app.driver.datastore;
+package com.bike.app.driver.datastore.memory;
 
 import com.bike.app.core.Role;
 import com.bike.app.core.User;
 import com.bike.app.core.adapters.datastore.UserStore;
+import com.bike.app.driver.datastore.FeatureInMemoryPersistence;
 import jakarta.inject.Singleton;
 
 import java.util.Arrays;
@@ -11,6 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Singleton
+@FeatureInMemoryPersistence
 public class InMemoryUserStore implements UserStore {
 
     private final HashMap<String, User> users = new HashMap<>();

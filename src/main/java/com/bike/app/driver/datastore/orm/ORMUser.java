@@ -1,4 +1,4 @@
-package com.bike.app.driver.datastore.jpa;
+package com.bike.app.driver.datastore.orm;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Data @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class JPAUser {
+public class ORMUser {
 
     @Id
     @GeneratedValue(generator = "UUID")

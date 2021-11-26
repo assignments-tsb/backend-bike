@@ -38,3 +38,12 @@ liquibase:
   datasources:
     default:
       change-log: classpath:db/liquibase-changelog.sql
+
+
+# FEATURE FLAGS: set these variables to enable/disable the features that we activate
+feature:
+  # the type of persistence that we support
+  # MEMORY (DEFAULT): stored in the app's RAM
+  # ORM: using postgres with the JPA ORM on top
+  # STORED_PROC: using postgres stored procedure directly without any ORM layers
+  persistence: MEMORY

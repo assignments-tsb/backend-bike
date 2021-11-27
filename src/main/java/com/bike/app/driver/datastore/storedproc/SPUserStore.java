@@ -5,15 +5,19 @@ import com.bike.app.core.adapters.datastore.UserStore;
 import com.bike.app.driver.datastore.FeatureStoredProcedurePersistence;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Singleton
 @FeatureStoredProcedurePersistence
 public class SPUserStore implements UserStore {
+
+    private static final String SQL_FIND_BY_USERNAME = "SELECT * FROM user_find_by_username(?)";
 
     private final DataSource dataSource;
 
@@ -25,17 +29,23 @@ public class SPUserStore implements UserStore {
     @Override
     public Optional<User> findByUsername(String username) {
         try (Connection connection = dataSource.getConnection();
-             CallableStatement statement = connection.prepareCall("{ ? = CALL user_find_by_username(?)}")) {
+             PreparedStatement statement = connection.prepareCall(SQL_FIND_BY_USERNAME)) {
+            statement.setString(1, username);
 
-            statement.registerOutParameter(1, Types.BOOLEAN);
-            statement.setString(2, username);
-            statement.execute();
+            ResultSet results = statement.executeQuery();
+            if (results.next()) {
+                User user = new User()
+                        .withId(results.getString("user_id"))
+                        .withDisplayName(results.getString("display_name"))
+                        .withEncryptedPassword(results.getString("encrypted_password"))
+                        .withUsername(results.getString("username"));
 
-            boolean found = (Boolean) statement.getObject(1);
-            System.out.println("Found: " + found);
+                return Optional.of(user);
+            }
+            results.close();
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Error: " + e.getMessage());
+            log.error(e.getMessage(), e);
+            return Optional.empty();
         }
 
         return Optional.empty();

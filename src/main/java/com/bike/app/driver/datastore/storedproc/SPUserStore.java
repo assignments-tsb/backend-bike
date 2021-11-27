@@ -27,14 +27,12 @@ public class SPUserStore implements UserStore {
         try (Connection connection = dataSource.getConnection();
              CallableStatement statement = connection.prepareCall("{ ? = CALL user_find_by_username(?)}")) {
 
-            statement.registerOutParameter(1, Types.OTHER);
+            statement.registerOutParameter(1, Types.BOOLEAN);
             statement.setString(2, username);
             statement.execute();
 
-            ResultSet results = (ResultSet) statement.getObject(1);
-            while (results.next()) {
-                System.out.println(results.getString(1));
-            }
+            boolean found = (Boolean) statement.getObject(1);
+            System.out.println("Found: " + found);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error: " + e.getMessage());

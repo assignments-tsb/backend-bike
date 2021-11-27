@@ -13,15 +13,11 @@ CREATE TABLE IF NOT EXISTS users
 );
 
 --changeset lbibera:00001_create_stored_proc_find_users_by_username
---comment: create a stored procedure to retrieve a user by its username
-CREATE OR REPLACE FUNCTION user_find_by_username(
-    IN username_in VARCHAR
-)
-RETURNS refcursor AS '
+--comment: create a stored procedure to retrieve a user by its username (NOTE, liquibase has a bug with the $$ thing)
+CREATE FUNCTION user_find_by_username(username varchar) RETURNS boolean AS '
 DECLARE
-    mycurs refcursor;
+    is_found boolean := false;
 BEGIN
-    OPEN mycurs FOR SELECT username, display_name, username, encrypted_password FROM users WHERE username = username_in;
-    RETURN mycurs;
-END;'
-LANGUAGE plpgsql;
+    RAISE NOTICE ''Looking for User: %'', username;  -- Prints 30
+    RETURN is_found;
+END;' LANGUAGE plpgsql;

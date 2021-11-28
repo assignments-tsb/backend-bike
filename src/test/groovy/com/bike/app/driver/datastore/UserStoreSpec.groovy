@@ -48,12 +48,11 @@ abstract class UserStoreSpec extends Specification {
 
         given: "a username of a user that we want to search"
         String username = "testuser"
+        String displayName = "Test User"
+        String password = "test123"
 
         and: "we persist that user"
-        ORMUser dummyUser = new ORMUser()
-        dummyUser.setUsername(username)
-        dummyUser.setDisplayName("Test User")
-        em.persist(dummyUser)
+        createUser(displayName, username, password)
 
         when: "we retrieve the user filtered by username"
         Optional<User> retrievedUser = userStore.findByUsername(username)
@@ -64,6 +63,17 @@ abstract class UserStoreSpec extends Specification {
 
         and: "the details are preserved"
         user.getUsername() == username
-        user.getDisplayName() == "Test User"
+        user.getDisplayName() == displayName
+        user.getEncryptedPassword() == password
+    }
+
+    private void createUser(String displayName, String username, String password) {
+
+        ORMUser dummyUser = new ORMUser()
+        dummyUser.setDisplayName(displayName)
+        dummyUser.setUsername(username)
+        dummyUser.setEncryptedPassword(password)
+        em.persist(dummyUser)
+        em.flush()
     }
 }

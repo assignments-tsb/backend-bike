@@ -53,16 +53,16 @@ public class SPUserStore implements UserStore {
     @Override
     public Optional<User> findByUsername(String username) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareCall(SQL_FIND_BY_USERNAME)) {
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_USERNAME)) {
             statement.setString(1, username);
 
             ResultSet results = statement.executeQuery();
             if (results.next()) {
                 User user = new User()
-                        .withId(results.getString("user_id"))
-                        .withDisplayName(results.getString("display_name"))
-                        .withEncryptedPassword(results.getString("encrypted_password"))
-                        .withUsername(results.getString("username"));
+                        .withId(results.getString(1))
+                        .withDisplayName(results.getString(2))
+                        .withUsername(results.getString(3))
+                        .withEncryptedPassword(results.getString(4));
 
                 return Optional.of(user);
             }

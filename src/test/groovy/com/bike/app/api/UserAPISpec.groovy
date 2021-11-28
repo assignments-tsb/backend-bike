@@ -8,7 +8,7 @@ import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.lang.Specification
 
-@MicronautTest(environments = ["test", "no-security"])
+@MicronautTest(environments = ["api"])
 class UserAPISpec extends Specification {
 
     @Inject

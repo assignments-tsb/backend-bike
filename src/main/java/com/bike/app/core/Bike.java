@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class Bike {
 
     String id;
+    String label;
 
     String customerName;
     LocalDateTime dateRentedOut;

@@ -8,6 +8,7 @@ import spock.lang.Specification
 class ListRentalBikesSpec extends Specification {
 
     def "should list available bikes"() {
+
         given: "a fake bike store"
         BikeStore mockBikeStore = Mock(BikeStore)
         mockBikeStore.findAll() >> [new Bike()]

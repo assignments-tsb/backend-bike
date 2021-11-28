@@ -1,0 +1,7 @@
+micronaut:
+  security:
+    enabled: false
+datasources:
+  default:
+    url: jdbc:tc:postgresql:13:///postgres
+    driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver

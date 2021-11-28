@@ -12,7 +12,23 @@ CREATE TABLE IF NOT EXISTS users
     encrypted_password VARCHAR(255)
 );
 
---changeset lbibera:00001_create_stored_proc_find_users_by_username
+--changeset lbibera:00001_create_stored_proc_create_user
+--comment: create a stored procedure to create a new user with a unique username (NOTE, liquibase has a bug with the $$ thing)
+CREATE PROCEDURE user_create(
+    IN username varchar,
+    IN display_name varchar,
+    INOUT user_id varchar)
+LANGUAGE plpgsql
+AS '
+BEGIN
+    user_id := ''1223'';
+
+    INSERT INTO users(user_id, username, display_name)
+    VALUES(user_id, username, display_name);
+END;
+';
+
+--changeset lbibera:00002_create_stored_proc_find_users_by_username
 --comment: create a stored procedure to retrieve a user by its username (NOTE, liquibase has a bug with the $$ thing)
 CREATE FUNCTION user_find_by_username(username_in varchar)
     RETURNS SETOF users AS '

@@ -18,11 +18,35 @@ import java.util.Optional;
 public class SPUserStore implements UserStore {
 
     private static final String SQL_FIND_BY_USERNAME = "SELECT * FROM user_find_by_username(?)";
+    private static final String SQL_CREATE = "CALL user_create(?,?,?)";
 
     private final DataSource dataSource;
 
     @Override
     public User create(User user) throws NonUniqueUsername {
+        try (Connection connection = dataSource.getConnection();
+             CallableStatement statement = connection.prepareCall(SQL_CREATE)) {
+
+            statement.setString(1, user.getUsername());
+            statement.setString(2, user.getDisplayName());
+            statement.setString(3, "");
+
+
+            ResultSet result = statement.executeQuery();
+
+            if (result.next()) {
+                String id = result.getString(1);
+
+                return new User()
+                        .withId(id)
+                        .withDisplayName(user.getDisplayName())
+                        .withEncryptedPassword(user.getEncryptedPassword())
+                        .withUsername(user.getUsername());
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+
         return null;
     }
 

@@ -23,6 +23,22 @@ class SPUserStoreSpec extends Specification {
         userStore instanceof SPUserStore
     }
 
+    def "should persist a new instance of user"() {
+        given: "the new user"
+        User user = new User()
+                .withUsername("test123")
+                .withDisplayName("Test Test")
+
+        when:
+        User createdUser = userStore.create(user)
+
+        then:
+        createdUser.getId()
+
+        and:
+        createdUser.getUsername() == user.getUsername()
+    }
+
     def "should retrieve an instance of a user when it matches the username"() {
         given: "a username of a user that we want to search"
         String username = "testuser"

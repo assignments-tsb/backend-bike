@@ -32,4 +32,6 @@ jobs:
           TESTCONTAINERS_RYUK_DISABLED: true
         run: |
           export DOCKER_IMAGE=`echo "${DOCKER_REGISTRY_URL}/${DOCKER_REPOSITORY_PATH}/backend-bike" | sed -e 's#//#/#' -e 's#^/##'`
-          ./gradlew check dockerPushNative --no-daemon
+          ./gradlew check dockerBuildNative --no-daemon
+          docker tag backend-bike:latest $DOCKER_IMAGE
+          docker push $DOCKER_IMAGE

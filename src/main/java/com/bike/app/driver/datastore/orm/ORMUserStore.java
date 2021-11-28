@@ -18,7 +18,10 @@ public class ORMUserStore implements UserStore {
 
     @Override
     public User create(User user) throws NonUniqueUsername {
-        return null;
+        ORMUser ormUser = ORMUser.from(user);
+        em.persist(ormUser);
+
+        return ormUser.toEntity();
     }
 
     @Override
@@ -27,7 +30,7 @@ public class ORMUserStore implements UserStore {
             return Optional.ofNullable(em
                     .createQuery("select u from ORMUser u where u.username = :username", ORMUser.class)
                     .setParameter("username", username)
-                    .getSingleResult().asDomain());
+                    .getSingleResult().toEntity());
         } catch (Exception e) {
             return Optional.empty();
         }

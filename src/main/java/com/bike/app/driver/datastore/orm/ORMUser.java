@@ -28,10 +28,21 @@ public class ORMUser {
     @Column(name = "encrypted_password")
     String encryptedPassword;
 
-    public User asDomain() {
+    public static ORMUser from(User user) {
+        ORMUser ormUser = new ORMUser();
+        ormUser.setId(user.getId());
+        ormUser.setDisplayName(user.getDisplayName());
+        ormUser.setUsername(user.getUsername());
+        ormUser.setEncryptedPassword(user.getEncryptedPassword());
+
+        return ormUser;
+    }
+
+    public User toEntity() {
         return new User()
                 .withId(id)
                 .withUsername(username)
-                .withDisplayName(displayName);
+                .withDisplayName(displayName)
+                .withEncryptedPassword(encryptedPassword);
     }
 }

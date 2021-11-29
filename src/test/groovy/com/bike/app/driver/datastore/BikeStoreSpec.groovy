@@ -27,4 +27,5 @@ abstract class BikeStoreSpec extends Specification implements BikePreparer {
         then: "get a list of all bikes"
         allBikes
     }
+
 }

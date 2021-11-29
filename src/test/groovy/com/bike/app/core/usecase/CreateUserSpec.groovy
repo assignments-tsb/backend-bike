@@ -2,7 +2,7 @@ package com.bike.app.core.usecase
 
 import com.bike.app.core.adapters.datastore.UserStore
 import com.bike.app.core.adapters.security.PasswordEncryptor
-import com.bike.app.core.usecase.impl.CreateUserImpl
+import com.bike.app.core.usecase.impl.CreateUserInteractor
 import spock.lang.Specification
 
 class CreateUserSpec extends Specification {
@@ -14,7 +14,7 @@ class CreateUserSpec extends Specification {
     void setup() {
         mockUserStore = Stub(UserStore)
         mockPasswordEncryptor = Stub(PasswordEncryptor)
-        createUserUseCase = new CreateUserImpl(mockUserStore, mockPasswordEncryptor)
+        createUserUseCase = new CreateUserInteractor(mockUserStore, mockPasswordEncryptor)
     }
 
     def "should persist a user"() {

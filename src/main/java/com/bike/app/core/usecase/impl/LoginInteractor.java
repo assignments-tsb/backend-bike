@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Singleton
-public class LoginImpl implements Login {
+public class LoginInteractor implements Login {
 
     private final UserStore userStore;
     private final PasswordEncryptor passwordEncryptor;

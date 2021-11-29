@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Singleton
-public class CreateUserImpl implements CreateUser {
+public class CreateUserInteractor implements CreateUser {
 
     private final UserStore userStore;
     private final PasswordEncryptor passwordEncryptor;

@@ -9,6 +9,7 @@ Under Development: [SPRINT 1](https://github.com/assignments-tsb/backend-bike/pr
 
 ## Documentation (OpenAPI)
 API endpoint documentation should be auto-generated from code to reflect the most up-to-date version
+http://localhost:8080/swagger-ui/
 ![Swagger Docs](docs/swagger_docs.png)
 
 ## Package Structure

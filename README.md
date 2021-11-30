@@ -45,5 +45,11 @@ Once we build the docker image, we should simulate running it up on a cluster vi
 ![Integration Tests](docs/postman.png)
 
 ## CI/CD
-The codebase should be continually tested and deployment should be done often
+The codebase should be continually tested and deployment should be done often.
+The CI practice should allow continuous checking of the codebase for the following things for every code checkin:
+- static code analysis: linters, coding standards, etc (SonarQUBE)
+- unit test: Spock
+- code coverage: JaCoCo
+- vulnerability/security scans (OWASP top 10, etc)
 ![Github Actions](docs/github_actions.png)
+  Unfortunately i didnt have time to add them all in this project

@@ -7,6 +7,7 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Error;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.hateoas.JsonError;
+import io.micronaut.transaction.annotation.TransactionalAdvice;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -53,6 +54,7 @@ public class UserAPI {
     @ApiResponse(responseCode = "403", description = "User is not allowed to create a new user")
     @ApiResponse(responseCode = "409", description = "User already exists")
     @Tag(name = "User")
+    @TransactionalAdvice
     public CreatedUserResponse create(@Body CreateUserRequest createUserRequest) throws CreateUser.UsernameAlreadyTaken {
         var createUser = new CreateUser.UserCreateCommand()
                 .withUsername(createUserRequest.username)

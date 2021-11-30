@@ -46,4 +46,4 @@ feature:
   # MEMORY (DEFAULT): stored in the app's RAM
   # ORM: using postgres with the JPA ORM on top
   # STORED_PROC: using postgres stored procedure directly without any ORM layers
-  persistence: MEMORY
+  persistence: ORM

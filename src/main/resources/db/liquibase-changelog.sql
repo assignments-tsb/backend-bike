@@ -2,6 +2,7 @@
 
 --changeset lbibera:00000_initial_db
 --comment: initial database with user storage
+CREATE EXTENSION pgcrypto;
 CREATE TABLE IF NOT EXISTS users
 (
     user_id VARCHAR(255) NOT NULL
@@ -11,10 +12,12 @@ CREATE TABLE IF NOT EXISTS users
     username VARCHAR(255),
     encrypted_password VARCHAR(255)
 );
+INSERT INTO users(user_id, display_name, username, encrypted_password)
+VALUES (gen_random_uuid(), 'Administrator', 'admin', 'admin123'),
+       (gen_random_uuid(), 'Staff 1', 'staff1', 'staff123');
 
 --changeset lbibera:00001_create_stored_proc_create_user
 --comment: create a stored procedure to create a new user with a unique username (NOTE, liquibase has a bug with the $$ thing)
-CREATE EXTENSION pgcrypto;
 CREATE PROCEDURE user_create(
     IN username varchar,
     IN display_name varchar,
@@ -45,3 +48,24 @@ CREATE TABLE IF NOT EXISTS bikes
             PRIMARY KEY ,
     label VARCHAR(255)
 );
+
+--changeset lbibera:00004_user_roles
+--comment: table to store roles and its join table
+CREATE TABLE IF NOT EXISTS roles
+(
+    role_id VARCHAR(255) NOT NULL CONSTRAINT roles_pk PRIMARY KEY,
+    label VARCHAR(255) NOT NULL
+);
+INSERT INTO roles(role_id, label)
+VALUES
+       ('ADMIN', 'Administrator'),
+       ('STAFF', 'Staff');
+CREATE TABLE IF NOT EXISTS user_roles(
+    role_id VARCHAR(255) REFERENCES roles(role_id) NOT NULL,
+    user_id VARCHAR(255) REFERENCES users(user_id) NOT NULL,
+    PRIMARY KEY (role_id, user_id)
+);
+INSERT INTO user_roles(role_id, user_id)
+VALUES ('ADMIN', (SELECT user_id FROM users WHERE username = 'admin' LIMIT 1)),
+       ('STAFF', (SELECT user_id FROM users WHERE username = 'staff1' LIMIT 1))
+

@@ -3,19 +3,26 @@ package com.bike.app.driver.datastore.orm;
 import com.bike.app.core.User;
 import com.bike.app.core.adapters.datastore.UserStore;
 import com.bike.app.driver.datastore.FeatureORMPersistence;
+import io.micronaut.transaction.annotation.ReadOnly;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Singleton
 @FeatureORMPersistence
 public class ORMUserStore implements UserStore {
 
+    @PersistenceContext
     private final EntityManager em;
 
+    @Transactional
     @Override
     public User create(User user) throws NonUniqueUsername {
         ORMUser ormUser = ORMUser.from(user);
@@ -24,6 +31,7 @@ public class ORMUserStore implements UserStore {
         return ormUser.toEntity();
     }
 
+    @ReadOnly
     @Override
     public Optional<User> findByUsername(String username) {
         try {
@@ -32,6 +40,7 @@ public class ORMUserStore implements UserStore {
                     .setParameter("username", username)
                     .getSingleResult().toEntity());
         } catch (Exception e) {
+            log.error(e.getMessage(), e);
             return Optional.empty();
         }
     }

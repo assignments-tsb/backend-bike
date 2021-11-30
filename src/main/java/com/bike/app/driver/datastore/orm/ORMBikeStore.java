@@ -8,6 +8,7 @@ import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 @FeatureORMPersistence
 public class ORMBikeStore implements BikeStore {
 
-    @Inject
+    @PersistenceContext
     EntityManager em;
 
     @Override
